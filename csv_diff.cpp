@@ -1,11 +1,14 @@
 #include "CsvFile.hpp"
 #include "CsvDiff.hpp"
 #include "OptionParser.hpp"
+#include "git.hpp"
 
 #include <iostream>
 #include <memory>
 
 int main(int argc, char** argv) {
+    std::cout << "CsvDiff, Version: " << GitVersion::Describe() << '\n';
+
     // Parse command line options
     std::unique_ptr<OptionParser> opts;
     opts = std::make_unique<OptionParser>(argc, argv);

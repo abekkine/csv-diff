@@ -1,0 +1,38 @@
+#ifndef GIT_HPP
+#define GIT_HPP
+
+#include <string>
+
+class GitVersion {
+public:
+    static bool Controlled() {
+        return @GIT_RETRIEVED_STATE@;
+    }
+    static bool IsDirty() {
+        return @GIT_IS_DIRTY@;
+    }
+    static std::string Hash(const int digits=6) {
+        std::string hash("@GIT_HEAD_SHA1@");
+        std::string hash_abbr = hash.substr(0, digits);
+            if (IsDirty()) {
+                hash_abbr = hash_abbr + "!M";
+            }
+        return hash_abbr;
+    }
+    static std::string Date() {
+        std::string date("@GIT_COMMIT_DATE_ISO8601@");
+        return date;
+    }
+    static std::string Describe() {
+        std::string desc("n/a");
+        if (Controlled()) {
+            desc = "@GIT_DESCRIBE@";
+            if (IsDirty()) {
+                desc = desc + "!M";
+            }
+        }
+        return desc;
+    }
+};
+
+#endif // GIT_HPP
