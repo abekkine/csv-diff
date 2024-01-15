@@ -67,6 +67,9 @@ Report only the number of columns which have `NaN` values.
 `--use-data-names`
 If they do not match, use CSV headers from data file, instead of reference file.
 
+# References
 
+Version script is based on Andrew Hardin's cmake script released under the MIT license.
 
+https://github.com/andrew-hardin/cmake-git-version-tracking
 
