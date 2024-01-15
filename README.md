@@ -18,10 +18,12 @@ Following statistics are calculated and printed:
 ### Used formulas
 
 In the formulas below,
-* $ x_i = ref_i - data_i $ used for normal calculations,
-* $ x_i = |ref_i - data_i| $ used for absolute calculations.
+* $x_i = ref_i - data_i $
+used for normal calculations,
+* $x_i = |ref_i - data_i| $
+used for absolute calculations.
 
-Mean Value : $ \bar x = \frac{1}{n} {\sum\limits_{i = 1}^n {{x_i}} } $
+Mean Value : $\bar x = \frac{1}{n} {\sum\limits_{i = 1}^n {{x_i}} } $
 
 Standard Deviation Value :  ${\sigma} = \sqrt {\frac{1}{n}{\sum\limits_{i = 1}^n {{{\left( {{x_i} - \bar x} \right)}^2}} }} $
 
