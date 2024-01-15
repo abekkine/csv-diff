@@ -45,6 +45,11 @@ int main(int argc, char** argv) {
         use_data_names = true;
     }
 
+    bool group_by_result = false;
+    if (opts->HasFlag("--group")) {
+        group_by_result = true;
+    }
+
     // Read CsvFile instances from input files
     auto files = opts->GetParams();
     auto refFile = std::make_shared<CsvFile>(files[0]);
@@ -57,6 +62,7 @@ int main(int argc, char** argv) {
     compare->SetHideNan(hide_nan);
     compare->SetMatchColumns(match_columns);
     compare->SetUseDataNames(use_data_names);
+    compare->SetGroupByResult(group_by_result);
     compare->SetRefFile(refFile);
     compare->SetDataFile(dataFile);
     compare->Run();
