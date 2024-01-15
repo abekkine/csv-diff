@@ -23,6 +23,7 @@ private:
     bool hide_same_;
     bool hide_nan_;
     bool use_data_names_;
+    bool group_by_result_;
     CsvFilePtr ref_;
     CsvFilePtr data_;
     std::unique_ptr<CsvReport> report_;
@@ -33,6 +34,7 @@ public:
         match_ = false;
         hide_same_ = false;
         hide_nan_ = false;
+        group_by_result_ = false;
     }
     ~CsvDiff() {}
     void SetEpsilon(const double& eps) {
@@ -49,6 +51,9 @@ public:
     }
     void SetUseDataNames(const bool use) {
         use_data_names_ = use;
+    }
+    void SetGroupByResult(const bool group) {
+        group_by_result_ = group;
     }
     void SetRefFile(CsvFilePtr ref) {
         ref_ = ref;
@@ -74,6 +79,7 @@ public:
         report_->SetEpsilon(eps_);
         report_->SetHideSame(hide_same_);
         report_->SetHideNan(hide_nan_);
+        report_->SetGroupByResult(group_by_result_);
         report_->Init();
 
         // Get names for columns with matching names in both input files.

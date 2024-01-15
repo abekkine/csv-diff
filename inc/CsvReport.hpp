@@ -13,6 +13,7 @@ class CsvReport {
 private:
     bool hide_same_;
     bool hide_nan_;
+    bool group_by_result_;
     size_t same_count_;
     size_t nan_count_;
     double eps_ = std::numeric_limits<double>::quiet_NaN();
@@ -29,6 +30,7 @@ public:
     CsvReport() {
         hide_same_ = false;
         hide_nan_ = false;
+        group_by_result_ = false;
         same_count_ = 0;
         nan_count_ = 0;
     }
@@ -41,6 +43,9 @@ public:
     }
     void SetHideNan(const bool hide) {
         hide_nan_ = hide;
+    }
+    void SetGroupByResult(const bool group) {
+        group_by_result_ = group;
     }
     void Init() {
         lines_.clear();
@@ -124,7 +129,9 @@ public:
             std::cout << "\n";
         }
 
-        std::sort(var_lines_.begin(), var_lines_.end());
+        if (group_by_result_) {
+            std::sort(var_lines_.begin(), var_lines_.end());
+        }
         for (const auto& line : var_lines_) {
             lines_.push_back(line.substr(3));
         }
