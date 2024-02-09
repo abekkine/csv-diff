@@ -24,6 +24,7 @@ private:
     bool hide_nan_;
     bool use_data_names_;
     bool group_by_result_;
+    bool brief_;
     CsvFilePtr ref_;
     CsvFilePtr data_;
     std::unique_ptr<CsvReport> report_;
@@ -35,6 +36,7 @@ public:
         hide_same_ = false;
         hide_nan_ = false;
         group_by_result_ = false;
+        brief_ = false;
     }
     ~CsvDiff() {}
     void SetEpsilon(const double& eps) {
@@ -61,32 +63,37 @@ public:
     void SetDataFile(CsvFilePtr data) {
         data_ = data;
     }
+    void SetBriefMode() {
+        brief_ = true;
+    }
     void Run() {
-        size_t ref_count, data_count;
+        size_t ref_line_count, data_line_count;
         if (ref_) {
             // Parse if reference file is set.
-            ref_count = ref_->Parse();
+            ref_->Parse();
+            ref_line_count = ref_->GetNumberOfLines();
         } else {
             std::cerr << "No reference file set!\n";
         }
         if (data_) {
             // Parse if data file is set.
-            data_count = data_->Parse();
+            data_->Parse();
+            data_line_count = data_->GetNumberOfLines();
         } else {
             std::cerr << "No data file set!\n";
         }
-      
-        if (ref_count != data_count) {
-            std::cerr << "Line count mismatch; Ref(" << ref_count << ") != Data(" << data_count << "). ";
-            std::cerr << "Smaller one will be used for comparison.\n";
-        }
-        
+       
         report_ = std::make_unique<CsvReport>();
         // Set epsilon value for report.
         report_->SetEpsilon(eps_);
         report_->SetHideSame(hide_same_);
         report_->SetHideNan(hide_nan_);
+        if (brief_) {
+            report_->SetBriefMode();
+        }
+        report_->SetLineCounts(ref_line_count, data_line_count);
         report_->SetGroupByResult(group_by_result_);
+        report_->SetColumnCount(ref_->GetNumberOfColumns());
         report_->Init();
 
         // Get names for columns with matching names in both input files.

@@ -19,22 +19,31 @@ private:
     std::string csv_header_;
     std::vector<std::string> csv_lines_;
     std::vector<CsvColumnPtr> csv_columns_;
+    size_t number_of_lines_;
+    size_t number_of_columns_;
 
 public:
     CsvFile(const std::string& filename)
     : filename_(filename)
+    , number_of_lines_(0)
+    , number_of_columns_(0)
     {}
     ~CsvFile() {}
-    size_t Parse(const bool dump=false) {
+    void Parse(const bool dump=false) {
         Open();
         // Read CSV lines into column objects.
-        auto line_count = ReadLines();
+        ReadLines();
         Close();
         if (dump) {
             // If requested, dump column contents.
             DumpColumns();
         }
-        return line_count;
+    }
+    size_t GetNumberOfLines() {
+        return number_of_lines_;
+    }
+    size_t GetNumberOfColumns() {
+        return number_of_columns_;
     }
     CsvColumnPtr GetColumn(const std::string& name) {
         for (auto & col : csv_columns_) {
@@ -59,8 +68,7 @@ private:
     void Open() {
         f_csv_ = std::ifstream(filename_);
     }
-    size_t ReadLines() {
-        size_t line_count = 0;
+    void ReadLines() {
         if (f_csv_.good()) {
             // If file is good, read the lines.
             std::string line;
@@ -88,9 +96,9 @@ private:
                     });
                 }
             }
-            line_count = csv_columns_[0]->GetSize();
+            number_of_lines_ = csv_columns_[0]->GetSize();
+            number_of_columns_ = csv_columns_.size();
         }
-        return line_count;
     }
     void Close() {
         f_csv_.close();

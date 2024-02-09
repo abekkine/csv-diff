@@ -46,7 +46,7 @@ Standard Deviation Value :  ${\sigma} = \sqrt {\frac{1}{n}{\sum\limits_{i = 1}^n
 * `F12` Show matching & total line counts in the report.
 * `F13` Report line count mismatch briefly, instead of for each column.
 * `F14` Add a brief report mode, for quick checks.
-* `F15` Support comparison of columns containing nan values.
+* `F15` Support comparison of columns containing nan values. Conflicts `F06`.
 
 ## Installation
 
