@@ -82,7 +82,12 @@ public:
                 auto ref_value = ref_->GetValue(i);
                 auto data_value = data_->GetValue(i);
                 // Calculate difference between reference and data values.
-                double diff = ref_value - data_value;
+                double diff;
+                if (std::isnan(ref_value) && std::isnan(data_value)) {
+                    diff = 0.0;
+                } else {
+                    diff = ref_value - data_value;
+                }
                 // Calculate absolute difference.
                 double diff_abs = std::fabs(diff);
                 // If difference is smaller than epsilon, assume it is zero.
