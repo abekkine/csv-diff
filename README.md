@@ -47,6 +47,7 @@ Standard Deviation Value :  ${\sigma} = \sqrt {\frac{1}{n}{\sum\limits_{i = 1}^n
 * `F13` Report line count mismatch briefly, instead of for each column.
 * `F14` Add a brief report mode, for quick checks.
 * `F15` Support comparison of columns containing nan values. Conflicts `F06`.
+* `F16` Add support for environment variables to replace command line arguments optionally.
 
 ## Installation
 
