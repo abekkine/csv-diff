@@ -70,7 +70,6 @@ public:
             // Calculate data size to use. Use the smaller one if they differ.
             if (ref_size != data_size) {
                 size = std::min(ref_size, data_size);
-                std::cerr << "Column: " << ref_->GetName() << " size mismatch: " << ref_size << " != " << data_size << ", using " << size << "\n";
             } else {
                 size = ref_size;
             }

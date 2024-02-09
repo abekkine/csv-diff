@@ -25,15 +25,16 @@ public:
     : filename_(filename)
     {}
     ~CsvFile() {}
-    void Parse(const bool dump=false) {
+    size_t Parse(const bool dump=false) {
         Open();
         // Read CSV lines into column objects.
-        ReadLines();
+        auto line_count = ReadLines();
         Close();
         if (dump) {
             // If requested, dump column contents.
             DumpColumns();
         }
+        return line_count;
     }
     CsvColumnPtr GetColumn(const std::string& name) {
         for (auto & col : csv_columns_) {
@@ -58,7 +59,8 @@ private:
     void Open() {
         f_csv_ = std::ifstream(filename_);
     }
-    void ReadLines() {
+    size_t ReadLines() {
+        size_t line_count = 0;
         if (f_csv_.good()) {
             // If file is good, read the lines.
             std::string line;
@@ -78,7 +80,7 @@ private:
                         csv_columns_.push_back(std::make_shared<CsvColumn>(value));
                     });
                 } else {
-                    int index = 0;
+                    size_t index = 0;
                     // Other lines are data lines; add values to the corresponding columns.
                     IterateValues(strip_line, [this, &index](const std::string& value){
                         csv_columns_[index]->AddValue(std::stod(value));
@@ -86,7 +88,9 @@ private:
                     });
                 }
             }
+            line_count = csv_columns_[0]->GetSize();
         }
+        return line_count;
     }
     void Close() {
         f_csv_.close();

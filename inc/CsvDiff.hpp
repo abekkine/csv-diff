@@ -62,18 +62,25 @@ public:
         data_ = data;
     }
     void Run() {
+        size_t ref_count, data_count;
         if (ref_) {
             // Parse if reference file is set.
-            ref_->Parse();
+            ref_count = ref_->Parse();
         } else {
             std::cerr << "No reference file set!\n";
         }
         if (data_) {
             // Parse if data file is set.
-            data_->Parse();
+            data_count = data_->Parse();
         } else {
             std::cerr << "No data file set!\n";
         }
+      
+        if (ref_count != data_count) {
+            std::cerr << "Line count mismatch; Ref(" << ref_count << ") != Data(" << data_count << "). ";
+            std::cerr << "Smaller one will be used for comparison.\n";
+        }
+        
         report_ = std::make_unique<CsvReport>();
         // Set epsilon value for report.
         report_->SetEpsilon(eps_);
