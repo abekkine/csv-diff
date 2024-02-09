@@ -19,10 +19,14 @@ private:
     std::string csv_header_;
     std::vector<std::string> csv_lines_;
     std::vector<CsvColumnPtr> csv_columns_;
+    size_t number_of_lines_;
+    size_t number_of_columns_;
 
 public:
     CsvFile(const std::string& filename)
     : filename_(filename)
+    , number_of_lines_(0)
+    , number_of_columns_(0)
     {}
     ~CsvFile() {}
     void Parse(const bool dump=false) {
@@ -34,6 +38,12 @@ public:
             // If requested, dump column contents.
             DumpColumns();
         }
+    }
+    size_t GetNumberOfLines() {
+        return number_of_lines_;
+    }
+    size_t GetNumberOfColumns() {
+        return number_of_columns_;
     }
     CsvColumnPtr GetColumn(const std::string& name) {
         for (auto & col : csv_columns_) {
@@ -78,7 +88,7 @@ private:
                         csv_columns_.push_back(std::make_shared<CsvColumn>(value));
                     });
                 } else {
-                    int index = 0;
+                    size_t index = 0;
                     // Other lines are data lines; add values to the corresponding columns.
                     IterateValues(strip_line, [this, &index](const std::string& value){
                         csv_columns_[index]->AddValue(std::stod(value));
@@ -86,6 +96,8 @@ private:
                     });
                 }
             }
+            number_of_lines_ = csv_columns_[0]->GetSize();
+            number_of_columns_ = csv_columns_.size();
         }
     }
     void Close() {

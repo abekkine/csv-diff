@@ -40,6 +40,15 @@ Standard Deviation Value :  ${\sigma} = \sqrt {\frac{1}{n}{\sum\limits_{i = 1}^n
 * `F07` Report is printed using the csv headers from the ref file, or the data file, optionally.
 * `F08` `CHECK` Supports csv files with different number of columns.
 
+### New Features
+
+* `F11` Show total column count int the report.
+* `F12` Show matching & total line counts in the report.
+* `F13` Report line count mismatch briefly, instead of for each column.
+* `F14` Add a brief report mode, for quick checks.
+* `F15` Support comparison of columns containing nan values. Conflicts `F06`.
+* `F16` Add support for environment variables to replace command line arguments optionally.
+
 ## Installation
 
 TBD

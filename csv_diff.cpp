@@ -26,28 +26,33 @@ int main(int argc, char** argv) {
     }
 
     bool match_columns = false;
-    if (opts->HasFlag("--match")) {
+    if (opts->HasFlag("--match") || opts->HasFlag("-m")) {
         match_columns = true;
     }
 
     bool hide_same = false;
-    if (opts->HasFlag("--hide-same")) {
+    if (opts->HasFlag("--hide-same") || opts->HasFlag("-hs")) {
         hide_same = true;
     }
 
     bool hide_nan = false;
-    if (opts->HasFlag("--hide-nan")) {
+    if (opts->HasFlag("--hide-nan") || opts->HasFlag("-hn")) {
         hide_nan = true;
     }
 
     bool use_data_names = false;
-    if (opts->HasFlag("--use-data-names")) {
+    if (opts->HasFlag("--use-data-names") || opts->HasFlag("-udn")) {
         use_data_names = true;
     }
 
     bool group_by_result = false;
-    if (opts->HasFlag("--group")) {
+    if (opts->HasFlag("--group")|| opts->HasFlag("-g")) {
         group_by_result = true;
+    }
+    
+    bool brief_mode = false;
+    if (opts->HasFlag("--brief") || opts->HasFlag("-b")) {
+        brief_mode = true;
     }
 
     // Read CsvFile instances from input files
@@ -63,6 +68,9 @@ int main(int argc, char** argv) {
     compare->SetMatchColumns(match_columns);
     compare->SetUseDataNames(use_data_names);
     compare->SetGroupByResult(group_by_result);
+    if (brief_mode) {
+        compare->SetBriefMode();
+    }
     compare->SetRefFile(refFile);
     compare->SetDataFile(dataFile);
     compare->Run();
